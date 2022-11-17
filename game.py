@@ -38,6 +38,10 @@ class Dungeon_Adventure:
             self.player.moving_right = True
         if event.key == pygame.K_a:
             self.player.moving_left = True
+        if event.key == pygame.K_s:
+            self.player.moving_down = True
+        if event.key == pygame.K_w:
+            self.player.moving_up = True
 
     def _check_keyup_events(self, event):
         """Respond to releasing keys"""
@@ -45,6 +49,10 @@ class Dungeon_Adventure:
             self.player.moving_right = False
         if event.key == pygame.K_a:
             self.player.moving_left = False
+        if event.key == pygame.K_s:
+            self.player.moving_down = False
+        if event.key == pygame.K_w:
+            self.player.moving_up = False
 
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)

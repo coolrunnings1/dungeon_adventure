@@ -38,4 +38,4 @@ class Player:
 
     def blit_character(self):
         """Draw character in middle of screen"""
-        self.screen.blit(self.character_image, self.screen_rect.center)
+        self.screen.blit(self.character_image, self.character_rect)
