@@ -42,6 +42,8 @@ class Dungeon_Adventure:
             self.player.moving_down = True
         if event.key == pygame.K_w:
             self.player.moving_up = True
+        if event.key == pygame.K_ESCAPE:
+            sys.exit()
 
     def _check_keyup_events(self, event):
         """Respond to releasing keys"""

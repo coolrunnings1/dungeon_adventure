@@ -7,4 +7,4 @@ class Settings:
         self.screen_height = 400
         self.bg_color = (255, 255, 255)
 
-        self.character_speed = 0.08
+        self.character_speed = 0.06
