@@ -8,6 +8,7 @@ class Dungeon_Adventure:
 
     def __init__(self):
         pygame.init()
+        pygame.display.set_caption('Dungeon Adventure')
 
         self.settings = Settings()
 
