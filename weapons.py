@@ -7,3 +7,4 @@ class Weapons(Sprite):
     def __init__(self, position):
         super().__init__()
 
+

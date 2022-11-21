@@ -17,6 +17,7 @@ class Dungeon_Adventure:
         )
 
         self.player = Player(self)
+        self.clock = pygame.time.Clock()
 
     def run_game(self):
         while True:
@@ -61,6 +62,7 @@ class Dungeon_Adventure:
         self.screen.fill(self.settings.bg_color)
         self.player.blit_character()  # update blitting the character onto screen
         pygame.display.flip()
+        self.clock.tick(60)
 
 
 if __name__ == '__main__':
