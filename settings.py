@@ -9,4 +9,5 @@ class Settings:
 
         self.character_speed = 1
         self.character_health = 100
+        self.FPS = 60
 

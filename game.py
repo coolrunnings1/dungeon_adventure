@@ -24,6 +24,7 @@ class Dungeon_Adventure:
             self._check_events()
             self.player.update()
             self._update_screen()
+            # add win/lose conditions
 
     def _check_events(self):
         for event in pygame.event.get():
@@ -62,7 +63,7 @@ class Dungeon_Adventure:
         self.screen.fill(self.settings.bg_color)
         self.player.blit_character()  # update blitting the character onto screen
         pygame.display.flip()
-        self.clock.tick(60)
+        self.clock.tick(self.settings.FPS)
 
 
 if __name__ == '__main__':
