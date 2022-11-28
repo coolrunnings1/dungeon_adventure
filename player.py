@@ -1,13 +1,15 @@
 import pygame
+from settings import Settings
 
 
-class Player:
+class Player(pygame.sprite.Sprite):
 
-    def __init__(self, dg_game):  # dg_game allows us to call modules from game.py don't need to keep importing classes
+    def __init__(self, pos, groups):
+        super().__init__(groups)
         """settings for character"""
-        self.screen = dg_game.screen
-        self.screen_rect = self.screen.get_rect()
-        self.settings = dg_game.settings
+        # self.screen = dg_game.screen
+        # self.screen_rect = self.screen.get_rect()
+        # self.settings = dg_game.settings
 
         self.character_image = pygame.image.load('assets/character.png')
         self.character_rect = self.character_image.get_rect()
