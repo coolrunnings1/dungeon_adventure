@@ -2,7 +2,7 @@ import pygame
 import sys
 from settings import Settings
 from player import Player
-# from objects import Objects
+from objects import Objects
 
 
 class Dungeon_Adventure:
@@ -19,14 +19,14 @@ class Dungeon_Adventure:
 
         self.player = Player(self)
         self.clock = pygame.time.Clock()
-        # self.object = Objects()
+        self.objects = Objects()
 
     def run_game(self):
         while True:
             self._check_events()
             self.player.update()
             self._update_screen()
-            # self.object.run()
+            self.objects.run()
             # add win/lose conditions
 
     def _check_events(self):
