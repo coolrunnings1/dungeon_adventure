@@ -2,7 +2,7 @@ import pygame
 import sys
 from settings import Settings
 from player import Player
-from objects import Objects
+# from weapons import Objects
 
 
 class Dungeon_Adventure:
@@ -18,13 +18,14 @@ class Dungeon_Adventure:
         )
 
         self.clock = pygame.time.Clock()
-        self.objects = Objects()
+        # self.objects = Objects()
+        self.player = Player(self)
 
     def run_game(self):
         while True:
             self._update_screen()
-            self.objects.run()
-            self.screen.fill(self.settings.bg_color)
+            self.player.update()
+            #self.objects.run()
             self._check_events()
             # add win/lose conditions
 
@@ -62,8 +63,8 @@ class Dungeon_Adventure:
             self.player.moving_up = False
 
     def _update_screen(self):
-        # self.screen.fill(self.settings.bg_color)
-        # self.player.blit_character()  # update blitting the character onto screen
+        self.screen.fill(self.settings.bg_color)
+        self.player.blit_character()  # update blitting the character onto screen
         pygame.display.update()
         self.clock.tick(self.settings.FPS)
 
