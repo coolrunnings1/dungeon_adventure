@@ -1,10 +1,12 @@
 import pygame
-
 from settings import Settings
+from tile import Tile
+from player import Player
 
 
 class Objects:
     def __init__(self):
+        self.settings = Settings()
         # get display surface
         self.display_surface = pygame.display.get_surface()
 
@@ -15,13 +17,15 @@ class Objects:
         # sprite setup
         self.create_map()
 
-        self.settings = Settings()
-
     def create_map(self):
-        for row in self.settings.game_map:
-            print(row)
+        for row_num, row in enumerate(self.settings.game_map):
+            for col_num, col in enumerate(row):
+                x = col_num * self.settings.TILESIZE
+                y = row_num * self.settings.TILESIZE
+                if col == 'x':
+                    Tile((x,y),[self.visible_objects])
+                if col == 'p':
+                    Player((x,y),[self.visible_objects])
 
     def run(self):
-        while True:
-            self.visible_objects.draw(self.display_surface)
-            self.create_map()
+        self.visible_objects.draw(self.display_surface)
