@@ -2,7 +2,7 @@ import pygame
 import sys
 from settings import Settings
 from player import Player
-# from weapons import Objects
+from weapons import Weapons
 
 
 class Dungeon_Adventure:
@@ -20,6 +20,7 @@ class Dungeon_Adventure:
         self.clock = pygame.time.Clock()
         # self.objects = Objects()
         self.player = Player(self)
+        self.weapons = Weapons(self)
 
     def run_game(self):
         while True:
@@ -37,6 +38,12 @@ class Dungeon_Adventure:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:  # check this code too
                 self._check_keyup_events(event)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                self.weapons.attack = True
+            elif event.type == pygame.MOUSEBUTTONUP:
+                self.weapons.attack = False
+            #elif event.type == pygame.MOUSEMOTION:
+
 
     def _check_keydown_events(self, event):
         """Respond to pressing keys"""
@@ -65,6 +72,8 @@ class Dungeon_Adventure:
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)
         self.player.blit_character()  # update blitting the character onto screen
+        self.weapons.blit_weapon()
+        self.weapons.update()
         pygame.display.update()
         self.clock.tick(self.settings.FPS)
 

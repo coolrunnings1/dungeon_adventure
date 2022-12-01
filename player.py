@@ -13,8 +13,7 @@ class Player:
         self.character_image = pygame.image.load('assets/character.png')
         self.character_rect = self.character_image.get_rect()
 
-        self.sword_image = pygame.image.load('assets/weapons/sword/sword.png')
-        self.sword_rect = self.sword_image.get_rect()
+
         # self.sword_rect = self.character_rect()
 
         # store decimal value for ship's horizontal/vertical coordinate
@@ -44,4 +43,4 @@ class Player:
     def blit_character(self):
         """Draw character in middle of screen"""
         self.screen.blit(self.character_image, self.character_rect)
-        self.screen.blit(self.sword_image, self.character_rect.topright)
+
