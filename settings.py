@@ -5,12 +5,13 @@ class Settings:
     def __init__(self):
         self.screen_width = 1040
         self.screen_height = 600
-        self.bg_color = (255, 255, 255)
+        self.bg_color = (0, 0, 0)
 
         self.character_speed = 1
         self.character_health = 100
         self.FPS = 60
         self.TILESIZE = 40
+        self.pos = (0, 0)
 
         self.game_map = [
             ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
