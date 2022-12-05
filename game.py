@@ -4,46 +4,50 @@ from settings import Settings
 from player import Player
 from sword import Sword
 
-pygame.init()
-pygame.display.set_caption('Dungeon Adventure')
+class Dungeon_Game:
 
-settings = Settings()
+    def __init__(self):
+        pygame.init()
+        pygame.display.set_caption('Space Adventure')
+        self.settings = Settings()
 
-# creates rect/surface for screen
-screen = pygame.display.set_mode((settings.screen_width, settings.screen_height))
-screen_rect = screen.get_rect()
-screen_surface = pygame.surface.Surface((screen_rect.width, screen_rect.height))
+        # creates rect/surface for screen
+        self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
+        self.screen_rect = self.screen.get_rect()
+        self.screen_surface = pygame.surface.Surface((self.screen_rect.width, self.screen_rect.height))
 
-# variables for inported modules
-player = Player()
-weapons = Sword()
+        # variables for inported modules
+        self.player = Player()
+        weapons = Sword()
 
-# sprite groups
-sprite_group = pygame.sprite.Group()
-sprite_group.add(player)
+        # sprite groups
+        self.sprite_group = pygame.sprite.Group()
+        self.sprite_group.add(self.player)
 
-clock = pygame.time.Clock()
+        self.clock = pygame.time.Clock()
 
-key = pygame.key.get_pressed()
+        self.key = pygame.key.get_pressed()
 
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            sys.exit()
-        elif event.type == pygame.KEYDOWN:
-            if key[pygame.K_a]:
-                player.move = True
-        elif event.type == pygame.KEYUP:
-            if key[pygame.K_d]:
-                player.move = False
 
-    screen.fill(settings.bg_color)
+    def run(self):
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
 
-    # bliting drawn screen on surface
-    screen.blit(screen_surface, (0, 0))
-    sprite_group.draw(screen)
+            self.screen.fill(self.settings.bg_color)
 
-    player.move
+            # bliting drawn screen on surface
+            self.screen.blit(self.screen_surface, (0, 0))
+            self.sprite_group.draw(self.screen)
 
-    pygame.display.update()
-    clock.tick(settings.FPS)
+            self.player.move
+
+            pygame.display.update()
+            self.clock.tick(self.settings.FPS)
+
+def __dg_game__ == '__main__':
+    game = Dungeon_Game()
+    game.run()
+
+

@@ -12,8 +12,7 @@ class Player(Sprite):
         self.rect = self.image.get_rect()
 
         # store decimal value for player's horizontal/vertical coordinate
-        self.x = float(self.rect.x)
-        self.y = float(self.rect.y)
+        self.x = self.settings.
 
         self.rect.x = self.x
         self.rect.y = self.y
