@@ -4,7 +4,7 @@ from settings import Settings
 from player import Player
 
 
-class Sword(Sprite):
+class Weapons(Sprite):
 
     def __init__(self):
         super().__init__()
@@ -32,3 +32,4 @@ class Sword(Sprite):
     def blit_weapon(self):
         """blit the sword with the player"""
         self.screen.blit(self.sword_idle_image, self.player.character_rect.midright)
+

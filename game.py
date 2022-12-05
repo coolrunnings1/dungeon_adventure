@@ -2,13 +2,15 @@ import pygame
 import sys
 from settings import Settings
 from player import Player
-from sword import Sword
 
-class Dungeon_Game:
+
+# from weapons import Objects
+
+class Dungeon_Adventure:
 
     def __init__(self):
         pygame.init()
-        pygame.display.set_caption('Space Adventure')
+        pygame.display.set_caption('Dungeon Adventure')
         self.settings = Settings()
 
         # creates rect/surface for screen
@@ -17,37 +19,60 @@ class Dungeon_Game:
         self.screen_surface = pygame.surface.Surface((self.screen_rect.width, self.screen_rect.height))
 
         # variables for inported modules
-        self.player = Player()
-        weapons = Sword()
-
-        # sprite groups
-        self.sprite_group = pygame.sprite.Group()
-        self.sprite_group.add(self.player)
+        self.player = Player(self)
 
         self.clock = pygame.time.Clock()
 
-        self.key = pygame.key.get_pressed()
-
-
-    def run(self):
+    def run_game(self):
         while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    sys.exit()
+            self._check_events()
+            self.player.update()
+            self._update_screen()
 
-            self.screen.fill(self.settings.bg_color)
+    def _check_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:  # check how this code actually works
+                self._check_keydown_events(event)
+            elif event.type == pygame.KEYUP:  # check this code too
+                self._check_keyup_events(event)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                self.player.attack = True
+            elif event.type == pygame.MOUSEBUTTONUP:
+                self.player.attack = False
 
-            # bliting drawn screen on surface
-            self.screen.blit(self.screen_surface, (0, 0))
-            self.sprite_group.draw(self.screen)
+    def _check_keydown_events(self, event):
+        """Respond to pressing keys"""
+        if event.key == pygame.K_d:
+            self.player.moving_right = True
+        if event.key == pygame.K_a:
+            self.player.moving_left = True
+        if event.key == pygame.K_s:
+            self.player.moving_down = True
+        if event.key == pygame.K_w:
+            self.player.moving_up = True
+        if event.key == pygame.K_ESCAPE:
+            sys.exit()
 
-            self.player.move
+    def _check_keyup_events(self, event):
+        """Respond to releasing keys"""
+        if event.key == pygame.K_d:
+            self.player.moving_right = False
+        if event.key == pygame.K_a:
+            self.player.moving_left = False
+        if event.key == pygame.K_s:
+            self.player.moving_down = False
+        if event.key == pygame.K_w:
+            self.player.moving_up = False
 
-            pygame.display.update()
-            self.clock.tick(self.settings.FPS)
+    def _update_screen(self):
+        self.screen.fill(self.settings.bg_color)
+        self.player.blit_character()  # update blitting the character onto screen
+        pygame.display.update()
+        self.clock.tick(self.settings.FPS)
 
-def __dg_game__ == '__main__':
-    game = Dungeon_Game()
-    game.run()
 
-
+if __name__ == '__main__':
+    dg = Dungeon_Adventure()
+    dg.run_game()

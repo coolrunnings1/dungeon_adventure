@@ -3,31 +3,58 @@ from pygame.sprite import Sprite
 from settings import Settings
 
 
-class Player(Sprite):
+class Player:
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, dg_game):
         """settings for character"""
-        self.image = pygame.image.load('assets/character.png')
-        self.rect = self.image.get_rect()
+        self.screen = dg_game.screen
+        self.screen_rect = self.screen.get_rect()
+        self.settings = dg_game.settings
+
+        self.character_image = pygame.image.load('assets/character.png')
+        self.character_rect = self.character_image.get_rect()
 
         # store decimal value for player's horizontal/vertical coordinate
-        self.x = self.settings.
+        self.x = float(self.character_rect.x)
+        self.y = float(self.character_rect.y)
 
-        self.rect.x = self.x
-        self.rect.y = self.y
+        self.sword_image = pygame.image.load('assets/weapons/sword/sword.png')
+        self.sword_rect = self.sword_image.get_rect()
 
-        self.settings = Settings()
+        self.sword_right_image = pygame.image.load('assets/weapons/sword/sword_right.png')
+        self.sword_rect = self.sword_right_image.get_rect()
 
-        self.move = False
-
-    def move(self):
-        while self.move:
-            print('k')
-            if self.x < self.settings.screen_width:
-                self.rect.x += self.settings.character_speed
-            if self.x < 0:
-                self.rect.x -= self.settings.character_speed
+        # self.sword_rect = self.character_rect()
 
         # update rect object from self.x
 
+        self.moving_right = False
+        self.moving_left = False
+        self.moving_up = False
+        self.moving_down = False
+        self.attack = False
+
+    def update(self):
+        if self.moving_right and self.character_rect.right < self.screen_rect.right:
+            self.x += self.settings.character_speed
+        if self.moving_left and self.character_rect.left > 0:
+            self.x -= self.settings.character_speed
+        if self.moving_down and self.character_rect.bottom < self.screen_rect.bottom:
+            self.y += self.settings.character_speed
+        if self.moving_up and self.character_rect.top > 0:
+            self.y -= self.settings.character_speed
+
+        # update rect object from self.x
+        self.character_rect.x = self.x
+        self.character_rect.y = self.y
+
+    def attack(self):
+        if self.attack:
+            self.screen.blit(self.sword_right_image, self.character_rect.midright)
+        elif not self.attack:
+            self.screen.blit(self.sword_image, self.character_rect.midright)
+
+    def blit_character(self):
+        """Draw character in middle of screen"""
+        self.screen.blit(self.character_image, self.character_rect)
+        self.screen.blit(self.sword_image, self.character_rect.midright)
