@@ -2,6 +2,8 @@ import pygame
 import sys
 from settings import Settings
 from player import Player
+from enemy import Enemy
+from sword import Weapons
 
 
 # from weapons import Objects
@@ -19,15 +21,22 @@ class Dungeon_Adventure:
         self.screen_surface = pygame.surface.Surface((self.screen_rect.width, self.screen_rect.height))
 
         # variables for inported modules
-        self.player = Player(self)
+        self.player = Player(self, (40, 40))
+        self.enemy = Enemy(self.screen_rect.center)
+        self.sword = Weapons(self, self.player.rect)
+
+        # Sprite groups/objects
+        self.objects = pygame.sprite.Group()
+        self.objects.add(self.enemy, self.player, self.sword)
 
         self.clock = pygame.time.Clock()
 
     def run_game(self):
         while True:
             self._check_events()
-            self.player.update()
+            self.player.update(self)
             self._update_screen()
+            self.collide()
 
     def _check_events(self):
         for event in pygame.event.get():
@@ -54,6 +63,9 @@ class Dungeon_Adventure:
             self.player.moving_up = True
         if event.key == pygame.K_ESCAPE:
             sys.exit()
+        if event.key == pygame.K_SPACE:
+            self.player.get_damage(10)
+            print(f"{self.player.current_health}")
 
     def _check_keyup_events(self, event):
         """Respond to releasing keys"""
@@ -67,10 +79,17 @@ class Dungeon_Adventure:
             self.player.moving_up = False
 
     def _update_screen(self):
-        self.screen.fill(self.settings.bg_color)
-        self.player.blit_character()  # update blitting the character onto screen
+        self.screen.blit(self.screen_surface, (0, 0))
+        self.objects.draw(self.screen)
+        self.enemy.move(self.settings.screen_width, self.settings.screen_height)
+        self.player.health_xp_bar()
         pygame.display.update()
         self.clock.tick(self.settings.FPS)
+
+    def collide(self):
+        if pygame.sprite.collide_rect(self.enemy, self.player):
+            self.player.current_health -= 10
+            print(f"Collision: player health={self.player.current_health}")
 
 
 if __name__ == '__main__':
