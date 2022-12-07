@@ -16,7 +16,6 @@ class Enemy(Sprite):
 
         self.image = pygame.surface.Surface((40, 40))
         self.image.blit(pygame.image.load('assets/crab.png'), (0, 0))
-        self.image.blit(pygame.image.load('assets/crab.png'), (0, 0))
 
         self.rect = self.image.get_rect()
         self.rect.center = position
@@ -28,36 +27,28 @@ class Enemy(Sprite):
 
         self.direction = 1
 
-        self.velocity = 2
+        self.x_velocity = 2
+        self.y_velocity = 2
 
-    def move(self, x, y):
+    def update(self, x, y):
+        self.rect.x += self.x_velocity
+        self.rect.y += self.y_velocity
 
-        self.rect.x += self.velocity
-        self.rect.y += self.velocity
-
-        if self.rect.x < 0:
-            self.direction *= -1
-            self.y += random.randint(1, 5) * self.direction
-            self.rect.x = 0
-
-        if self.rect.x > x:
-            self.direction *= -1
-            self.y += random.randint(1, 5) * self.direction
-            self.rect.x = x
-
-        if self.rect.y < 0:
-            self.direction *= -1
-            self.x += random.randint(1, 5) * self.direction
+        if self.rect.left < 0:
+            self.x_velocity = random.randint(1, 5)
             self.rect.left = 0
 
-        if self.rect.left > y:
-            self.direction *= -1
-            self.y += random.randint(1, 5) * self.direction
-            self.rect.left = y
+        if self.rect.right > x:
+            self.x_velocity = random.randint(-5, -1)
+            self.rect.right = x
 
-        self.rect.x = self.x
-        self.rect.y = self.y
+        if self.rect.top < 0:
+            self.y_velocity = random.randint(1, 5)
+            self.rect.top = 0
+
+        if self.rect.bottom > y:
+            self.y_velocity = random.randint(-5, -1)
+            self.rect.bottom = y
 
     def draw(self, surface):
-        self.move(self.settings.screen_width, self.settings.screen_height)
-        surface.blit(self.image, (self.x, self.y))
+        surface.blit(self.image, (self.rect.x, self.rect.y))

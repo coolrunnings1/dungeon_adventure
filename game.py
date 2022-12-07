@@ -4,6 +4,8 @@ from settings import Settings
 from player import Player
 from enemy import Enemy
 from sword import Weapons
+from random import randint
+
 
 
 # from weapons import Objects
@@ -22,13 +24,17 @@ class Dungeon_Adventure:
 
         # variables for inported modules
         self.player = Player(self, (40, 40))
-        self.enemy = Enemy(self.screen_rect.center)
         self.sword = Weapons(self, self.player.rect)
 
         # Sprite groups/objects
         self.objects = pygame.sprite.Group()
-        self.objects.add(self.enemy, self.player, self.sword)
 
+        self.enemies = pygame.sprite.Group()
+        self.objects.add(self.enemies, self.player, self.sword)
+
+        for i in range(5):
+            self.enemies.add(Enemy((randint(0, self.settings.screen_width),
+                              randint(0, self.settings.screen_height))))
         self.clock = pygame.time.Clock()
 
     def run_game(self):
@@ -81,15 +87,18 @@ class Dungeon_Adventure:
     def _update_screen(self):
         self.screen.blit(self.screen_surface, (0, 0))
         self.objects.draw(self.screen)
-        self.enemy.move(self.settings.screen_width, self.settings.screen_height)
+        self.enemies.draw(self.screen)
+        self.enemies.update(self.settings.screen_width, self.settings.screen_height)
         self.player.health_xp_bar()
         pygame.display.update()
         self.clock.tick(self.settings.FPS)
 
     def collide(self):
-        if pygame.sprite.collide_rect(self.enemy, self.player):
-            self.player.current_health -= 10
-            print(f"Collision: player health={self.player.current_health}")
+        for enemy in self.enemies:
+
+            if pygame.sprite.collide_rect(enemy, self.player):
+                self.player.get_damage(1)
+                print(f"Collision: player health={self.player.current_health}")
 
 
 if __name__ == '__main__':
