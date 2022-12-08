@@ -3,12 +3,9 @@ import sys
 from settings import Settings
 from player import Player
 from enemy import Enemy
-from sword import Weapons
 from random import randint
+from cursor import Cursor
 
-
-
-# from weapons import Objects
 
 class Dungeon_Adventure:
 
@@ -22,20 +19,22 @@ class Dungeon_Adventure:
         self.screen_rect = self.screen.get_rect()
         self.screen_surface = pygame.surface.Surface((self.screen_rect.width, self.screen_rect.height))
 
-        # variables for inported modules
+        # variables for imported modules
         self.player = Player(self, (40, 40))
-        self.sword = Weapons(self, self.player.rect)
+        self.cursor = Cursor((0, 0))
+        self.position = (0, 0)
 
         # Sprite groups/objects
         self.objects = pygame.sprite.Group()
-
         self.enemies = pygame.sprite.Group()
-        self.objects.add(self.enemies, self.player, self.sword)
+        self.objects.add(self.enemies, self.player, self.cursor)
 
-        for i in range(5):
+        for i in range(50):
             self.enemies.add(Enemy((randint(0, self.settings.screen_width),
-                              randint(0, self.settings.screen_height))))
+                                    randint(0, self.settings.screen_height))))
         self.clock = pygame.time.Clock()
+
+        self.position = pygame.mouse.get_pos()
 
     def run_game(self):
         while True:
@@ -43,6 +42,8 @@ class Dungeon_Adventure:
             self.player.update(self)
             self._update_screen()
             self.collide()
+            if self.player.current_health == 0:
+                self.game_over()
 
     def _check_events(self):
         for event in pygame.event.get():
@@ -52,10 +53,13 @@ class Dungeon_Adventure:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:  # check this code too
                 self._check_keyup_events(event)
+            elif event.type == pygame.MOUSEMOTION:
+                self.position = pygame.mouse.get_pos()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                self.player.attack = True
-            elif event.type == pygame.MOUSEBUTTONUP:
-                self.player.attack = False
+                x, y = pygame.mouse.get_pos()
+                new_bullet = Bullet(self.player.rect.centerx, self.player.rect.centery, 20, x, y)
+                self.bullet.add(new_bullet)
+                print("pew")
 
     def _check_keydown_events(self, event):
         """Respond to pressing keys"""
@@ -69,9 +73,6 @@ class Dungeon_Adventure:
             self.player.moving_up = True
         if event.key == pygame.K_ESCAPE:
             sys.exit()
-        if event.key == pygame.K_SPACE:
-            self.player.get_damage(10)
-            print(f"{self.player.current_health}")
 
     def _check_keyup_events(self, event):
         """Respond to releasing keys"""
@@ -89,16 +90,26 @@ class Dungeon_Adventure:
         self.objects.draw(self.screen)
         self.enemies.draw(self.screen)
         self.enemies.update(self.settings.screen_width, self.settings.screen_height)
+
         self.player.health_xp_bar()
+
+        self.cursor.update(self.position)
+
+        self.bullet.update()
+        self.bullet.draw(self.screen)
+
         pygame.display.update()
         self.clock.tick(self.settings.FPS)
 
     def collide(self):
         for enemy in self.enemies:
-
             if pygame.sprite.collide_rect(enemy, self.player):
                 self.player.get_damage(1)
-                print(f"Collision: player health={self.player.current_health}")
+                # print(f"Collision: player health={self.player.current_health}")
+
+    def game_over(self):
+        image = pygame.surface.Surface((1040, 600))
+        image.fill((255, 255, 255))
 
 
 if __name__ == '__main__':

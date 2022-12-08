@@ -29,6 +29,7 @@ class Enemy(Sprite):
 
         self.x_velocity = 2
         self.y_velocity = 2
+        self.enemy_health = 1000
 
     def update(self, x, y):
         self.rect.x += self.x_velocity

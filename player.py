@@ -18,7 +18,7 @@ class Player(Sprite):
         self.image.blit(pygame.image.load('assets/character.png'), (40, 40))
 
         self.rect = self.image.get_rect()
-        # self.rect.center = position
+        #self.rect.center = position
 
         self.current_health = 1000
         self.max_health = 1000
@@ -33,8 +33,6 @@ class Player(Sprite):
         # store decimal value for player's horizontal/vertical coordinate
         self.x = float(self.rect.x)
         self.y = float(self.rect.y)
-
-        # self.sword_rect = self.character_rect()
 
         self.moving_right = False
         self.moving_left = False

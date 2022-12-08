@@ -14,6 +14,12 @@ class Settings:
         self.TILESIZE = 40
         self.pos = (0, 0)
 
+        # bullet class
+        self.bullet_speed = 5
+        self.bullet_width = 3
+        self.bullet_height = 15
+        self.bullet_color = (255, 0, 0)
+
         self.game_map = [
             ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'],
             ['x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x'],
