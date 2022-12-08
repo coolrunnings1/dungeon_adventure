@@ -5,7 +5,7 @@ from player import Player
 from enemy import Enemy
 from random import randint
 from cursor import Cursor
-
+from pygame import mixer
 
 class Dungeon_Adventure:
 
@@ -29,12 +29,17 @@ class Dungeon_Adventure:
         self.enemies = pygame.sprite.Group()
         self.objects.add(self.enemies, self.player, self.cursor)
 
-        for i in range(50):
+        for i in range(40):
             self.enemies.add(Enemy((randint(0, self.settings.screen_width),
                                     randint(0, self.settings.screen_height))))
         self.clock = pygame.time.Clock()
 
         self.position = pygame.mouse.get_pos()
+
+        mixer.init()
+        pygame.mixer.music.load('assets/Black Ops Zombies Soundtrack - _Abra Macabre_.mp3')
+        pygame.mixer.music.set_volume(50)
+        mixer.music.play()
 
     def run_game(self):
         while True:
