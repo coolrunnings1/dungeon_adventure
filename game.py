@@ -42,8 +42,6 @@ class Dungeon_Adventure:
             self.player.update(self)
             self._update_screen()
             self.collide()
-            if self.player.current_health == 0:
-                self.game_over()
 
     def _check_events(self):
         for event in pygame.event.get():
@@ -55,11 +53,6 @@ class Dungeon_Adventure:
                 self._check_keyup_events(event)
             elif event.type == pygame.MOUSEMOTION:
                 self.position = pygame.mouse.get_pos()
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                x, y = pygame.mouse.get_pos()
-                new_bullet = Bullet(self.player.rect.centerx, self.player.rect.centery, 20, x, y)
-                self.bullet.add(new_bullet)
-                print("pew")
 
     def _check_keydown_events(self, event):
         """Respond to pressing keys"""
@@ -95,9 +88,6 @@ class Dungeon_Adventure:
 
         self.cursor.update(self.position)
 
-        self.bullet.update()
-        self.bullet.draw(self.screen)
-
         pygame.display.update()
         self.clock.tick(self.settings.FPS)
 
@@ -105,11 +95,6 @@ class Dungeon_Adventure:
         for enemy in self.enemies:
             if pygame.sprite.collide_rect(enemy, self.player):
                 self.player.get_damage(1)
-                # print(f"Collision: player health={self.player.current_health}")
-
-    def game_over(self):
-        image = pygame.surface.Surface((1040, 600))
-        image.fill((255, 255, 255))
 
 
 if __name__ == '__main__':
